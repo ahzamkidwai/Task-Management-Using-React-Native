@@ -4,6 +4,7 @@ const connectDB = require("./config/db");
 const app = express();
 const cors = require("cors");
 const authRoutes = require("./routes/auth");
+const taskRoutes = require("./routes/task");
 
 const PORT = 3000;
 
@@ -21,7 +22,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
-
+app.use("/api/task", taskRoutes);
 // Start Server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
