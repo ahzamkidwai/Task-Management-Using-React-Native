@@ -1,5 +1,5 @@
-import { Text } from "react-native";
+import HomeScreenForm from "@/components/HomeScreenForm";
 
 export default function HomeScreen() {
-  return <Text>Hello Worldr</Text>;
+  return <HomeScreenForm />;
 }
