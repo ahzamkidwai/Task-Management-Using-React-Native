@@ -1,6 +1,7 @@
+import { AuthContext } from "@/context/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { useReducer, useState } from "react";
+import { useContext, useReducer, useState } from "react";
 import {
   View,
   Text,
@@ -35,6 +36,7 @@ const HomeScreenForm = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [focusedField, setFocusedField] = useState(null); // Track focused field
   const navigation = useNavigation();
+  const { setAuth, setToken } = useContext(AuthContext);
 
   const validate = () => {
     let newErrors = {};
@@ -77,10 +79,10 @@ const HomeScreenForm = () => {
 
       const responseData = await response.json();
       console.log("Response Data is : ", responseData);
-      if (response.ok) {
-        // Store JWT token in AsyncStorage
-        await AsyncStorage.setItem("token", responseData.token);
 
+      if (response.ok) {
+        await AsyncStorage.setItem("token", responseData.token);
+        await AsyncStorage.setItem("user", JSON.stringify(responseData.user));
         alert(
           state.isRegister
             ? "Registered Successfully!"
@@ -90,6 +92,8 @@ const HomeScreenForm = () => {
         // Navigate to Dashboard screen after login
         console.log("Response Data Is : ", responseData);
         navigation.navigate("dashboard");
+        setToken(responseData.token);
+        setAuth(responseData.token, responseData.user); // Update AuthContext
       } else {
         alert(responseData.message || "Something went wrong");
       }

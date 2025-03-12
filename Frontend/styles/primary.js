@@ -1,6 +1,9 @@
 export const PrimaryColors = {
-  // backgroundColor: "#F8F3D9",
-  backgroundColor: "#F8F3D9",
-  textColor: "#7886C7",
-  backgroundScreenColor: "#D3D3D3",
+  backgroundScreenColor: "white",
+  // textColor: "#6A9C89",
+  textColor: "black",
+  backgroundColor: "white",
+  // backgroundColor: "#FFF5E4",
+  backgroundColor1: "orange",
+  backgroundColor2: "pink",
 };
