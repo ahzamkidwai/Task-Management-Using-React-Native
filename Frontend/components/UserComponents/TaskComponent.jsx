@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import SingleTaskComponent from "./SingleTaskComponent";
 import { darkColors } from "../../constants/colors";
 
@@ -13,27 +13,30 @@ const TaskComponent = ({ tasks }) => {
   };
 
   return (
-    <View style={styles.container}>
-      {tasks.map((item) => {
-        const { backgroundColor, textColor } = getRandomColor(); // Extract colors
+    <>
+      <Text style={styles.heading}>Pending Tasks</Text>
+      <View style={styles.container}>
+        {tasks.map((item) => {
+          const { backgroundColor, textColor } = getRandomColor(); // Extract colors
 
-        return (
-          <View
-            key={item._id}
-            style={[styles.taskContainer, { backgroundColor }]} // Apply backgroundColor
-          >
-            <SingleTaskComponent item={item} textColor={textColor} />
-          </View>
-        );
-      })}
-    </View>
+          return (
+            <View
+              key={item._id}
+              style={[styles.taskContainer, { backgroundColor }]} // Apply backgroundColor
+            >
+              <SingleTaskComponent item={item} textColor={textColor} />
+            </View>
+          );
+        })}
+      </View>
+    </>
   );
 };
 
 export default TaskComponent;
 
 const styles = StyleSheet.create({
-  container: { marginVertical: "8%" },
+  container: { marginVertical: "8%", borderWidth: 2 },
   taskContainer: {
     marginHorizontal: 15,
     marginVertical: 10,
@@ -48,5 +51,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-start",
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "red",
+    marginTop: 20,
+    paddingVertical: 4,
+    marginHorizontal: 10,
   },
 });
