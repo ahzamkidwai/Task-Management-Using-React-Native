@@ -1,3 +1,5 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import { useReducer, useState } from "react";
 import {
   View,
@@ -21,7 +23,7 @@ function reducer(state, action) {
     case "SET_FIELD":
       return { ...state, [action.field]: action.value };
     case "TOGGLE_AUTH":
-      return { ...state, isRegister: !state.isRegister, errors: {} };
+      return { ...initialState, isRegister: !state.isRegister };
     case "SET_ERRORS":
       return { ...state, errors: action.errors };
     default:
@@ -32,6 +34,7 @@ function reducer(state, action) {
 const HomeScreenForm = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [focusedField, setFocusedField] = useState(null); // Track focused field
+  const navigation = useNavigation();
 
   const validate = () => {
     let newErrors = {};
@@ -47,15 +50,56 @@ const HomeScreenForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
-    if (validate()) {
-      alert(
-        state.isRegister
-          ? "Registered Successfully!"
-          : "Logged in Successfully!"
-      );
+  const handleSubmit = async () => {
+    if (!validate()) return;
+    // const url = state.isRegister
+    //   ? "http://localhost:3000/api/auth/register"
+    //   : "http://localhost:3000/api/auth/signin";
+    const url = state.isRegister
+      ? "http://192.168.29.115:3000/api/auth/register"
+      : "http://192.168.29.115:3000/api/auth/signin";
+
+    const formData = {
+      name: state.isRegister ? state.name : undefined, // Send name only if registering
+      email: state.email,
+      password: state.password,
+      confirmPassword: state.confirmPassword,
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const responseData = await response.json();
+      console.log("Response Data is : ", responseData);
+      if (response.ok) {
+        // Store JWT token in AsyncStorage
+        await AsyncStorage.setItem("token", responseData.token);
+
+        alert(
+          state.isRegister
+            ? "Registered Successfully!"
+            : "Logged in Successfully!"
+        );
+
+        // Navigate to Dashboard screen after login
+        console.log("Response Data Is : ", responseData);
+        navigation.navigate("dashboard");
+      } else {
+        alert(responseData.message || "Something went wrong");
+      }
+    } catch (error) {
+      console.log("Error occurred while loggin in : ", error.message);
+      // alert("Network error! Please try again.");
+      alert(error.message);
     }
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Task Management System</Text>
