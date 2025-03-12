@@ -21,7 +21,5 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: "bold",
     color: PrimaryColors.textColor,
-    // borderWidth: 1,
-    // borderColor: "red",
   },
 });

@@ -220,11 +220,9 @@ export default HomeScreenForm;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#add8e6", // Light blue background
-    paddingTop: 50,
+    borderWidth: 1,
+    height: "100%",
   },
   heading: {
     fontSize: 22,
