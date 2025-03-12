@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { getAllTasksUrl } from "@/constants/api";
 
 export const AuthContext = createContext();
 
@@ -10,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     user: null, // Store user data here
   });
   const [token, setToken] = useState(null);
+  const [tasks, setTasks] = useState([]); // State to store tasks
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -30,6 +32,32 @@ export const AuthProvider = ({ children }) => {
     fetchAuthData();
   }, []);
 
+  useEffect(() => {
+    const fetchAllTasks = async () => {
+      if (!token) return; // Avoid making the request if token is missing
+
+      try {
+        const response = await fetch(getAllTasksUrl, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const responseData = await response.json();
+        if (responseData.tasks) {
+          setTasks(responseData.tasks); // Store tasks in state
+          // console.log("ALL TASKS : ", tasks);
+        }
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+
+    fetchAllTasks();
+  }, [token]);
+
   const setAuth = async (token, user) => {
     console.log("setAuth is working");
     await AsyncStorage.setItem("token", token);
@@ -49,7 +77,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ authData, token, setAuth, logout, setToken }}
+      value={{ authData, token, setAuth, logout, setToken, tasks, setTasks }}
     >
       {children}
     </AuthContext.Provider>

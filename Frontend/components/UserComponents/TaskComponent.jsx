@@ -1,8 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import SingleTaskComponent from "./SingleTaskComponent";
 import { darkColors } from "../../constants/colors";
-import Entypo from "@expo/vector-icons/Entypo";
-import AntDesign from "@expo/vector-icons/AntDesign";
 
 const TaskComponent = ({ tasks }) => {
   const getRandomColor = () => {
@@ -25,11 +23,6 @@ const TaskComponent = ({ tasks }) => {
             style={[styles.taskContainer, { backgroundColor }]} // Apply backgroundColor
           >
             <SingleTaskComponent item={item} textColor={textColor} />
-            <View style={styles.iconsContainer}>
-              <AntDesign name="arrowright" size={24} color={textColor} />
-              <Entypo name="edit" size={24} color={textColor} />
-              <AntDesign name="delete" size={24} color={textColor} />
-            </View>
           </View>
         );
       })}
@@ -41,7 +34,6 @@ export default TaskComponent;
 
 const styles = StyleSheet.create({
   container: { marginVertical: "8%" },
-  iconsContainer: { flexDirection: "column", gap: 8 },
   taskContainer: {
     marginHorizontal: 15,
     marginVertical: 10,
