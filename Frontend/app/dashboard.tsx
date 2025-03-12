@@ -2,8 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/authContext";
 import DashboardHeading from "@/components/UserComponents/DashboardHeading";
 import { getAllTasksUrl } from "../constants/api";
-import EmptyTaskComponent from "../components/UserComponents/EmptyTaskComponent";
-import TaskComponent from "../components/UserComponents/TaskComponent";
 import DashboardContent from "@/components/UserComponents/DashboardContent";
 
 const Dashboard = () => {

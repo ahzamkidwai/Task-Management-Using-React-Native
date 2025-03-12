@@ -1,15 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const SingleTaskComponent = ({ item }) => {
+const SingleTaskComponent = ({ item, textColor }) => {
   return (
     <View>
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.description}>{item.description}</Text>
-      <Text style={styles.dueDate}>
+      <Text style={[styles.title, { color: textColor }]}>{item.title}</Text>
+      <Text style={[styles.description, { color: "white" }]}>
+        {item.description}
+      </Text>
+      <Text style={[styles.dueDate, { color: textColor }]}>
         Due Date: {new Date(item.dueDate).toLocaleDateString()}
       </Text>
-      <Text style={styles.status}>
+      <Text style={[styles.status, { color: textColor }]}>
         Status: {item.completed ? "Completed" : "Pending"}
       </Text>
     </View>
@@ -19,37 +21,21 @@ const SingleTaskComponent = ({ item }) => {
 export default SingleTaskComponent;
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-  },
-  taskContainer: {
-    backgroundColor: "#f9f9f9",
-    padding: 15,
-    marginVertical: 8,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
   title: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 5,
   },
   description: {
     fontSize: 14,
-    color: "#555",
-    marginBottom: 5,
+    marginVertical: 5,
   },
   dueDate: {
     fontSize: 12,
-    color: "#888",
   },
   status: {
     fontSize: 14,
     fontWeight: "bold",
     marginTop: 5,
-    color: "#d9534f",
   },
 });
