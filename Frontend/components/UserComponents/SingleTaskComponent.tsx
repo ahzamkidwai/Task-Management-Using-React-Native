@@ -2,14 +2,26 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
 const SingleTaskComponent = ({ item, textColor }) => {
+  // Limit description to max 200 characters and dueDate to 50 characters
+  const truncatedDescription =
+    item.description.length > 200
+      ? item.description.slice(0, 200) + "..."
+      : item.description;
+
+  const truncatedDueDate =
+    item.dueDate.length > 20 ? item.dueDate.slice(0, 20) + "..." : item.dueDate;
+
+  const truncatedTitle =
+    item.title.length > 20 ? item.title.slice(0, 20) + "..." : item.title;
+
   return (
-    <View>
-      <Text style={[styles.title, { color: textColor }]}>{item.title}</Text>
+    <View style={styles.singleTaskContainer}>
+      <Text style={[styles.title, { color: textColor }]}>{truncatedTitle}</Text>
       <Text style={[styles.description, { color: "white" }]}>
-        {item.description}
+        {truncatedDescription}
       </Text>
       <Text style={[styles.dueDate, { color: textColor }]}>
-        Due Date: {new Date(item.dueDate).toLocaleDateString()}
+        Due Date: {truncatedDueDate}
       </Text>
       <Text style={[styles.status, { color: textColor }]}>
         Status: {item.completed ? "Completed" : "Pending"}
@@ -21,6 +33,7 @@ const SingleTaskComponent = ({ item, textColor }) => {
 export default SingleTaskComponent;
 
 const styles = StyleSheet.create({
+  singleTaskContainer: { width: "90%" },
   title: {
     fontSize: 20,
     fontWeight: "bold",

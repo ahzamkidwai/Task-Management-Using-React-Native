@@ -1,7 +1,8 @@
 import { StyleSheet, View } from "react-native";
-import React from "react";
 import SingleTaskComponent from "./SingleTaskComponent";
 import { darkColors } from "../../constants/colors";
+import Entypo from "@expo/vector-icons/Entypo";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 const TaskComponent = ({ tasks }) => {
   const getRandomColor = () => {
@@ -24,6 +25,11 @@ const TaskComponent = ({ tasks }) => {
             style={[styles.taskContainer, { backgroundColor }]} // Apply backgroundColor
           >
             <SingleTaskComponent item={item} textColor={textColor} />
+            <View style={styles.iconsContainer}>
+              <AntDesign name="arrowright" size={24} color={textColor} />
+              <Entypo name="edit" size={24} color={textColor} />
+              <AntDesign name="delete" size={24} color={textColor} />
+            </View>
           </View>
         );
       })}
@@ -34,38 +40,21 @@ const TaskComponent = ({ tasks }) => {
 export default TaskComponent;
 
 const styles = StyleSheet.create({
-  container: {
-    // borderWidth: 1,
-    marginVertical: "8%",
-  },
+  container: { marginVertical: "8%" },
+  iconsContainer: { flexDirection: "column", gap: 8 },
   taskContainer: {
     marginHorizontal: 15,
-    padding: 20,
     marginVertical: 10,
+    paddingHorizontal: "3%",
+    paddingVertical: "4%",
     borderRadius: 25,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 5,
-  },
-  description: {
-    fontSize: 14,
-    color: "#ddd",
-    marginBottom: 5,
-  },
-  dueDate: {
-    fontSize: 12,
-    color: "#bbb",
-  },
-  status: {
-    fontSize: 14,
-    fontWeight: "bold",
-    marginTop: 5,
-    color: "#d9534f",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-start",
   },
 });
