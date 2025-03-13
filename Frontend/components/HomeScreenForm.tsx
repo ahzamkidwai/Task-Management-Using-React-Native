@@ -99,8 +99,8 @@ const HomeScreenForm = () => {
       }
     } catch (error) {
       console.log("Error occurred while loggin in : ", error.message);
-      // alert("Network error! Please try again.");
-      alert(error.message);
+      alert("Network error! Please try again.");
+      // alert(error.message);
     }
   };
 

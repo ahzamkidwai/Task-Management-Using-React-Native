@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
       const storedToken = await AsyncStorage.getItem("token");
       const storedUser = await AsyncStorage.getItem("user");
       if (!storedToken) {
-        navigation.navigate("Login"); // Redirect to login if no token
+        navigation.navigate("(tabs)"); // Redirect to login if no token
       }
       setToken(storedToken);
       setAuthData({
@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }) => {
     await AsyncStorage.removeItem("user");
 
     setAuthData({ token: null, user: null });
-    navigation.navigate("Login");
+    navigation.navigate("(tabs)");
   };
 
   return (
