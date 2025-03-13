@@ -1,8 +1,10 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import SingleTaskComponent from "./SingleTaskComponent";
 import { darkColors } from "../../constants/colors";
+import { useNavigation } from "@react-navigation/native";
 
 const TaskComponent = ({ tasks }) => {
+  const navigation = useNavigation();
   const getRandomColor = () => {
     const randomColor =
       darkColors[Math.floor(Math.random() * darkColors.length)];
@@ -20,12 +22,15 @@ const TaskComponent = ({ tasks }) => {
           const { backgroundColor, textColor } = getRandomColor(); // Extract colors
 
           return (
-            <View
+            <TouchableOpacity
               key={item._id}
-              style={[styles.taskContainer, { backgroundColor }]} // Apply backgroundColor
+              style={[styles.taskContainer, { backgroundColor }]}
+              onPress={() => {
+                navigation.navigate("singleTask", { item });
+              }}
             >
               <SingleTaskComponent item={item} textColor={textColor} />
-            </View>
+            </TouchableOpacity>
           );
         })}
       </View>

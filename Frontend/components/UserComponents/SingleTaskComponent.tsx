@@ -9,6 +9,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useContext, useState } from "react";
 import { AuthContext } from "@/context/authContext";
+import { deleteTaskHandler } from "../../utils/handlers";
 
 const SingleTaskComponent = ({ item, textColor }) => {
   const { token, setTasks } = useContext(AuthContext);
@@ -23,35 +24,6 @@ const SingleTaskComponent = ({ item, textColor }) => {
 
   const truncatedTitle =
     item.title.length > 20 ? item.title.slice(0, 20) + "..." : item.title;
-
-  const deleteTaskHandler = async (itemID) => {
-    try {
-      setDeleteLoading(true);
-      const response = await fetch(
-        `http://192.168.29.115:3000/api/task/deleteTask/${itemID}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to delete task");
-      }
-
-      console.log(`Task ${itemID} deleted successfully!`);
-
-      // Optionally remove the deleted task from state
-      setTasks((prevTasks) => prevTasks.filter((task) => task._id !== itemID));
-      setDeleteLoading(false);
-    } catch (error) {
-      console.log("Error occurred while deleting:", error.message);
-      setDeleteLoading(false);
-    }
-  };
 
   return (
     <>
@@ -72,7 +44,11 @@ const SingleTaskComponent = ({ item, textColor }) => {
       <View style={styles.iconsContainer}>
         <AntDesign name="arrowright" size={24} color={textColor} />
         <Entypo name="edit" size={20} color={textColor} />
-        <TouchableOpacity onPress={() => deleteTaskHandler(item._id)}>
+        <TouchableOpacity
+          onPress={() =>
+            deleteTaskHandler(item._id, setDeleteLoading, token, setTasks)
+          }
+        >
           {deleteLoading ? (
             <ActivityIndicator size="small" color={textColor} />
           ) : (
