@@ -17,7 +17,7 @@ const TaskComponent = ({ tasks }) => {
   };
 
   return (
-    <>
+    <View>
       <Text style={styles.heading}>Pending Tasks</Text>
 
       <TouchableOpacity
@@ -53,7 +53,7 @@ const TaskComponent = ({ tasks }) => {
           );
         })}
       </View>
-    </>
+    </View>
   );
 };
 

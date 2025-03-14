@@ -1,12 +1,19 @@
 import React, { useContext, useState } from "react";
-import { View, Text, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Card, Title, Paragraph, Button } from "react-native-paper";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { AuthContext } from "@/context/authContext";
 import { deleteTaskHandler } from "@/utils/handlers";
 
-const SingleTask = ({}) => {
+const SingleTask = () => {
   const route = useRoute();
   const { item } = route.params;
   const navigation = useNavigation();
@@ -22,7 +29,7 @@ const SingleTask = ({}) => {
   }
 
   const handleUpdate = () => {
-    navigation.navigate("UpdateTask", { item });
+    navigation.navigate("updateTask", { item });
   };
 
   const handleDelete = (itemId) => {
@@ -31,6 +38,7 @@ const SingleTask = ({}) => {
       {
         text: "Delete",
         onPress: () => {
+          setDeleteLoading(true);
           deleteTaskHandler(itemId, setDeleteLoading, token, setTasks);
           navigation.navigate("(tabs)");
         },
@@ -40,8 +48,15 @@ const SingleTask = ({}) => {
 
   return (
     <View style={styles.container}>
-      {/* Heading */}
-      <Text style={styles.heading}>Task Details</Text>
+      <View style={styles.header}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+        >
+          <Ionicons name="arrow-back" size={24} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.heading}>Task Details</Text>
+      </View>
 
       {/* Task Details */}
       <Card style={styles.card}>
@@ -51,9 +66,8 @@ const SingleTask = ({}) => {
             {item.description}
           </Paragraph>
 
-          {/* Task Metadata */}
           <View style={styles.metaItem}>
-            <MaterialIcons name="date-range" size={18} color="#444" />
+            <MaterialIcons name="date-range" size={18} color="#bbb" />
             <Text style={styles.metaText}>{item.createdAt || "Unknown"}</Text>
           </View>
         </Card.Content>
@@ -65,6 +79,7 @@ const SingleTask = ({}) => {
           mode="contained"
           onPress={handleUpdate}
           style={styles.updateButton}
+          disabled={deleteLoading}
         >
           Update
         </Button>
@@ -72,8 +87,13 @@ const SingleTask = ({}) => {
           mode="contained"
           onPress={() => handleDelete(item._id)}
           style={styles.deleteButton}
+          disabled={deleteLoading}
         >
-          Delete
+          {deleteLoading ? (
+            <ActivityIndicator color="#fff" size="small" />
+          ) : (
+            "Delete"
+          )}
         </Button>
       </View>
     </View>
@@ -85,32 +105,41 @@ export default SingleTask;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f9fa",
-    padding: 15,
-    marginTop: 25,
+    backgroundColor: "#121212",
+    paddingTop: 50,
+    paddingHorizontal: 10,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  backButton: {
+    padding: 5,
   },
   heading: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "bold",
-    color: "#333",
+    color: "#fff",
     textAlign: "center",
-    marginBottom: 20,
+    flex: 1,
+    marginRight: 30,
   },
   card: {
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "white",
+    backgroundColor: "#1E1E1E",
     padding: 15,
   },
   taskTitle: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 5,
-    color: "#333",
+    color: "#fff",
   },
   taskDescription: {
     fontSize: 16,
-    color: "#666",
+    color: "#ccc",
     marginBottom: 15,
   },
   metaItem: {
@@ -120,13 +149,14 @@ const styles = StyleSheet.create({
   },
   metaText: {
     fontSize: 14,
-    color: "#555",
+    color: "#bbb",
     marginLeft: 5,
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
+    paddingHorizontal: 10,
   },
   updateButton: {
     flex: 1,

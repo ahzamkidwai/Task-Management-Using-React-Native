@@ -225,7 +225,6 @@ export default HomeScreenForm;
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    borderWidth: 1,
     height: "100%",
   },
   heading: {
@@ -256,8 +255,6 @@ const styles = StyleSheet.create({
   input: {
     width: "100%",
     padding: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
     borderRadius: 5,
     marginBottom: 5,
     backgroundColor: "white",

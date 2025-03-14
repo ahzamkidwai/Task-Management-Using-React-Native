@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    borderWidth: 1,
     marginTop: 20,
   },
   title: {
@@ -112,7 +111,6 @@ const styles = StyleSheet.create({
     color: PrimaryColors.textColor,
   },
   iconWrapper: {
-    borderWidth: 1,
     borderRadius: "50%",
     padding: 5,
     borderColor: PrimaryColors.primary,

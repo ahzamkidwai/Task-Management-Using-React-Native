@@ -35,8 +35,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchAllTasks = async () => {
-      console.log("Reload Task is working");
-      if (!token) return; // Avoid making the request if token is missing
+      if (!token) return;
 
       try {
         const response = await fetch(getAllTasksUrl, {
@@ -61,7 +60,6 @@ export const AuthProvider = ({ children }) => {
   }, [token, reloadTask]);
 
   const setAuth = async (token, user) => {
-    console.log("setAuth is working");
     await AsyncStorage.setItem("token", token);
     await AsyncStorage.setItem("user", JSON.stringify(user));
 
@@ -69,7 +67,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    console.log("Logout is working");
     await AsyncStorage.removeItem("token");
     await AsyncStorage.removeItem("user");
 
