@@ -10,9 +10,11 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { useContext, useState } from "react";
 import { AuthContext } from "@/context/authContext";
 import { deleteTaskHandler } from "../../utils/handlers";
+import { useNavigation } from "@react-navigation/native";
 
 const SingleTaskComponent = ({ item, textColor }) => {
   const { token, setTasks } = useContext(AuthContext);
+  const navigation = useNavigation();
   const [deleteLoading, setDeleteLoading] = useState(false);
   const truncatedDescription =
     item.description.length > 200
@@ -21,6 +23,10 @@ const SingleTaskComponent = ({ item, textColor }) => {
 
   const truncatedTitle =
     item.title.length > 20 ? item.title.slice(0, 20) + "..." : item.title;
+
+  const updateTaskHandler = (item) => {
+    navigation.navigate("updateTask", { item });
+  };
 
   return (
     <>
@@ -38,7 +44,13 @@ const SingleTaskComponent = ({ item, textColor }) => {
       </View>
       <View style={styles.iconsContainer}>
         <AntDesign name="arrowright" size={24} color={textColor} />
-        <Entypo name="edit" size={20} color={textColor} />
+        <TouchableOpacity
+          onPress={() => {
+            updateTaskHandler(item);
+          }}
+        >
+          <Entypo name="edit" size={20} color={textColor} />
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={() =>
             deleteTaskHandler(item._id, setDeleteLoading, token, setTasks)
