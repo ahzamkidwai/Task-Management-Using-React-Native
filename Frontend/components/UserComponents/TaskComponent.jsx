@@ -2,9 +2,11 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import SingleTaskComponent from "./SingleTaskComponent";
 import { darkColors } from "../../constants/colors";
 import { useNavigation } from "@react-navigation/native";
+import { Button } from "react-native-paper";
 
 const TaskComponent = ({ tasks }) => {
   const navigation = useNavigation();
+
   const getRandomColor = () => {
     const randomColor =
       darkColors[Math.floor(Math.random() * darkColors.length)];
@@ -17,9 +19,26 @@ const TaskComponent = ({ tasks }) => {
   return (
     <>
       <Text style={styles.heading}>Pending Tasks</Text>
+
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("createTask");
+        }}
+      >
+        <Button
+          mode="contained"
+          buttonColor="black"
+          textColor="white"
+          labelStyle={{ fontSize: 16, fontWeight: "bold" }}
+          style={styles.addTaskButton}
+        >
+          + Add New Task
+        </Button>
+      </TouchableOpacity>
+
       <View style={styles.container}>
         {tasks.map((item) => {
-          const { backgroundColor, textColor } = getRandomColor(); // Extract colors
+          const { backgroundColor, textColor } = getRandomColor();
 
           return (
             <TouchableOpacity
@@ -41,28 +60,35 @@ const TaskComponent = ({ tasks }) => {
 export default TaskComponent;
 
 const styles = StyleSheet.create({
-  container: { marginVertical: "8%", borderWidth: 2 },
+  container: { marginVertical: "8%", borderWidth: 2, borderColor: "#ddd" },
   taskContainer: {
     marginHorizontal: 15,
     marginVertical: 10,
-    paddingHorizontal: "3%",
-    paddingVertical: "4%",
-    borderRadius: 25,
+    paddingHorizontal: "4%",
+    paddingVertical: "5%",
+    borderRadius: 20,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    display: "flex",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-start",
+    elevation: 3,
   },
   heading: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "bold",
-    color: "red",
+    color: "#333",
     marginTop: 20,
-    paddingVertical: 4,
-    marginHorizontal: 10,
+    paddingVertical: 5,
+    marginHorizontal: 12,
+  },
+  addTaskButton: {
+    marginHorizontal: 15,
+    marginVertical: 10,
+    borderRadius: 8,
+    elevation: 3,
+    width: "50%",
   },
 });
