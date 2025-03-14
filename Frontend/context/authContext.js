@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [tasks, setTasks] = useState([]); // State to store tasks
   const navigation = useNavigation();
+  const [reloadTask, setReloadTask] = useState(false);
 
   useEffect(() => {
     const fetchAuthData = async () => {
@@ -34,6 +35,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchAllTasks = async () => {
+      console.log("Reload Task is working");
       if (!token) return; // Avoid making the request if token is missing
 
       try {
@@ -56,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     fetchAllTasks();
-  }, [token]);
+  }, [token, reloadTask]);
 
   const setAuth = async (token, user) => {
     console.log("setAuth is working");
@@ -77,7 +79,17 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ authData, token, setAuth, logout, setToken, tasks, setTasks }}
+      value={{
+        authData,
+        token,
+        setAuth,
+        logout,
+        setToken,
+        tasks,
+        setTasks,
+        reloadTask,
+        setReloadTask,
+      }}
     >
       {children}
     </AuthContext.Provider>

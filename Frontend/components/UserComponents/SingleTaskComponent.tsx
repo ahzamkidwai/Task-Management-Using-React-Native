@@ -19,9 +19,6 @@ const SingleTaskComponent = ({ item, textColor }) => {
       ? item.description.slice(0, 200) + "..."
       : item.description;
 
-  const truncatedDueDate =
-    item.dueDate.length > 20 ? item.dueDate.slice(0, 20) + "..." : item.dueDate;
-
   const truncatedTitle =
     item.title.length > 20 ? item.title.slice(0, 20) + "..." : item.title;
 
@@ -34,9 +31,7 @@ const SingleTaskComponent = ({ item, textColor }) => {
         <Text style={[styles.description, { color: "white" }]}>
           {truncatedDescription}
         </Text>
-        <Text style={[styles.dueDate, { color: textColor }]}>
-          Due Date: {truncatedDueDate}
-        </Text>
+
         <Text style={[styles.status, { color: textColor }]}>
           Status: {item.completed ? "Completed" : "Pending"}
         </Text>
@@ -77,9 +72,6 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     marginVertical: 5,
-  },
-  dueDate: {
-    fontSize: 12,
   },
   status: {
     fontSize: 14,

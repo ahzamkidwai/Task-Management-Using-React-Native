@@ -10,7 +10,6 @@ const TaskSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    dueDate: { type: Date, required: true }, // Deadline for the task
   },
   { timestamps: true } // Automatically adds createdAt and updatedAt
 );

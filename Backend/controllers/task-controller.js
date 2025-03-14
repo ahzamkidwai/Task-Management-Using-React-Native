@@ -3,22 +3,18 @@ const Task = require("../models/Task");
 const createTask = async (req, res) => {
   try {
     console.log("Welcome to Create Task");
-    const { title, description, dueDate } = req.body;
+    const { title, description } = req.body;
 
     console.log("Title is:", title);
     console.log("Description is:", description);
-    console.log("Due Date is:", dueDate);
 
     if (!title) return res.status(400).json({ message: "Title is required" });
     if (!description)
       return res.status(400).json({ message: "Description is required" });
-    if (!dueDate)
-      return res.status(400).json({ message: "Due Date is required" });
 
     const task = new Task({
       title,
       description,
-      dueDate,
       userId: req.user.userId,
     });
     await task.save();
@@ -34,12 +30,11 @@ const updateTask = async (req, res) => {
   try {
     console.log("Welcome to Update Task");
     const { id } = req.params;
-    const { title, description, dueDate } = req.body;
+    const { title, description } = req.body;
 
     console.log("Task ID is:", id);
     console.log("Updated Title:", title);
     console.log("Updated Description:", description);
-    console.log("Updated Due Date:", dueDate);
 
     const task = await Task.findById(id);
     if (!task) {
@@ -54,8 +49,6 @@ const updateTask = async (req, res) => {
 
     task.title = title || task.title;
     task.description = description || task.description;
-    task.dueDate = dueDate || task.dueDate;
-
     await task.save();
 
     res.status(200).json({ message: "Task updated successfully", task });
