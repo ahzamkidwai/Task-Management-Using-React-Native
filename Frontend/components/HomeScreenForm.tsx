@@ -10,13 +10,14 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 
 const initialState = {
   name: "",
   email: "",
   password: "",
   confirmPassword: "",
-  isRegister: true,
+  isRegister: false,
   errors: {},
 };
 
@@ -35,6 +36,7 @@ function reducer(state, action) {
 
 const HomeScreenForm = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [loading, setLoading] = useState(false);
   const [focusedField, setFocusedField] = useState(null); // Track focused field
   const navigation = useNavigation();
   const { setAuth, setToken } = useContext(AuthContext);
@@ -53,49 +55,107 @@ const HomeScreenForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  // const handleSubmit = async () => {
+  //   if (!validate()) return;
+  //   setLoading(true);
+  //   const url = state.isRegister ? registerUserUrl : loginUserUrl;
+
+  //   const formData = {
+  //     name: state.isRegister ? state.name : undefined,
+  //     email: state.email,
+  //     password: state.password,
+  //     confirmPassword: state.confirmPassword,
+  //   };
+
+  //   try {
+  //     const response = await fetch(url, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
+
+  //     const responseData = await response.json();
+  //     console.log("Response Data is : ", responseData);
+
+  //     if (response.ok) {
+  //       await AsyncStorage.setItem("token", responseData.token);
+  //       await AsyncStorage.setItem("user", JSON.stringify(responseData.user));
+  //       alert(
+  //         state.isRegister
+  //           ? "Registered Successfully!"
+  //           : "Logged in Successfully!"
+  //       );
+
+  //       console.log("Response Data Is : ", responseData);
+  //       navigation.navigate("dashboard");
+  //       setToken(responseData.token);
+  //       setAuth(responseData.token, responseData.user);
+  //     } else {
+  //       alert(responseData.message || "Something went wrong");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error occurred while loggin in : ", error.message);
+  //     alert("Network error! Please try again.");
+  //   }
+  // };
+
   const handleSubmit = async () => {
     if (!validate()) return;
 
+    setLoading(true); // Start loading
+
     const url = state.isRegister ? registerUserUrl : loginUserUrl;
 
-    const formData = {
-      name: state.isRegister ? state.name : undefined,
-      email: state.email,
-      password: state.password,
-      confirmPassword: state.confirmPassword,
-    };
+    let formData = {};
+    if (state.isRegister) {
+      formData = {
+        name: state.isRegister ? state.name : undefined,
+        email: state.email,
+        password: state.password,
+        confirmPassword: state.confirmPassword,
+      };
+    } else {
+      formData = {
+        email: state.email,
+        password: state.password,
+      };
+    }
 
     try {
       const response = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       const responseData = await response.json();
-      console.log("Response Data is : ", responseData);
+      console.log("Response Data is:", responseData);
 
       if (response.ok) {
-        await AsyncStorage.setItem("token", responseData.token);
-        await AsyncStorage.setItem("user", JSON.stringify(responseData.user));
+        if (!state.isRegister) {
+          await AsyncStorage.setItem("token", responseData.token);
+          await AsyncStorage.setItem("user", JSON.stringify(responseData.user));
+        }
         alert(
           state.isRegister
             ? "Registered Successfully!"
             : "Logged in Successfully!"
         );
-
-        console.log("Response Data Is : ", responseData);
-        navigation.navigate("dashboard");
-        setToken(responseData.token);
-        setAuth(responseData.token, responseData.user);
+        if (!state.isRegister) {
+          setToken(responseData.token);
+          setAuth(responseData.token, responseData.user);
+          navigation.navigate("dashboard");
+        }
       } else {
         alert(responseData.message || "Something went wrong");
       }
     } catch (error) {
-      console.log("Error occurred while loggin in : ", error.message);
+      console.log("Error occurred:", error.message);
       alert("Network error! Please try again.");
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -197,10 +257,18 @@ const HomeScreenForm = () => {
           </>
         )}
 
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>
-            {state.isRegister ? "Register" : "Login"}
-          </Text>
+        <TouchableOpacity
+          style={[styles.button, loading && styles.buttonDisabled]}
+          onPress={handleSubmit}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator size="small" color="white" />
+          ) : (
+            <Text style={styles.buttonText}>
+              {state.isRegister ? "Register" : "Login"}
+            </Text>
+          )}
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => dispatch({ type: "TOGGLE_AUTH" })}>
@@ -261,4 +329,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 10,
   },
+  buttonDisabled: { opacity: 0.7 },
 });

@@ -28,7 +28,7 @@ const DashboardHeading = () => {
     try {
       await AsyncStorage.removeItem("token"); // Remove token from AsyncStorage
       setToken(null); // Clear token in AuthContext
-      navigation.navigate("(tabs)"); // Redirect to login screen
+      navigation.navigate("home"); // Redirect to login screen
     } catch (error) {
       console.error("Error during logout:", error);
     }

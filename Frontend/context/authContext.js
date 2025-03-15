@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
       const storedToken = await AsyncStorage.getItem("token");
       const storedUser = await AsyncStorage.getItem("user");
       if (!storedToken) {
-        navigation.navigate("(tabs)");
+        navigation.navigate("home");
       }
       setToken(storedToken);
       setAuthData({
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
 
     setAuthData({ token: null, user: null });
     console.log("Logout Successfully");
-    navigation.navigate("(tabs)");
+    navigation.navigate("home");
   };
 
   return (

@@ -73,7 +73,7 @@ const UpdateTask = ({}) => {
       console.log("Task Updated Successfully:", responseData);
       setUpdateTaskLoading(false);
       setReloadTask(!reloadTask);
-      navigation.navigate("(tabs)"); // Navigate back after update
+      navigation.navigate("home"); // Navigate back after update
     } catch (error) {
       console.error("Error occurred while updating Task:", error);
       setUpdateTaskLoading(false);

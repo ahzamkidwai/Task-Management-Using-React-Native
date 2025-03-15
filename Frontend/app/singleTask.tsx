@@ -40,7 +40,7 @@ const SingleTask = () => {
         onPress: () => {
           setDeleteLoading(true);
           deleteTaskHandler(itemId, setDeleteLoading, token, setTasks);
-          navigation.navigate("(tabs)");
+          navigation.navigate("home");
         },
       },
     ]);
