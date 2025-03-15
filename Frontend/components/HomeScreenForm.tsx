@@ -1,3 +1,4 @@
+import { loginUserUrl, registerUserUrl } from "@/constants/api";
 import { AuthContext } from "@/context/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -54,15 +55,11 @@ const HomeScreenForm = () => {
 
   const handleSubmit = async () => {
     if (!validate()) return;
-    // const url = state.isRegister
-    //   ? "http://localhost:3000/api/auth/register"
-    //   : "http://localhost:3000/api/auth/signin";
-    const url = state.isRegister
-      ? "http://192.168.29.115:3000/api/auth/register"
-      : "http://192.168.29.115:3000/api/auth/signin";
+
+    const url = state.isRegister ? registerUserUrl : loginUserUrl;
 
     const formData = {
-      name: state.isRegister ? state.name : undefined, // Send name only if registering
+      name: state.isRegister ? state.name : undefined,
       email: state.email,
       password: state.password,
       confirmPassword: state.confirmPassword,
@@ -89,18 +86,16 @@ const HomeScreenForm = () => {
             : "Logged in Successfully!"
         );
 
-        // Navigate to Dashboard screen after login
         console.log("Response Data Is : ", responseData);
         navigation.navigate("dashboard");
         setToken(responseData.token);
-        setAuth(responseData.token, responseData.user); // Update AuthContext
+        setAuth(responseData.token, responseData.user);
       } else {
         alert(responseData.message || "Something went wrong");
       }
     } catch (error) {
       console.log("Error occurred while loggin in : ", error.message);
       alert("Network error! Please try again.");
-      // alert(error.message);
     }
   };
 
@@ -223,10 +218,12 @@ const HomeScreenForm = () => {
 export default HomeScreenForm;
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    height: "100%",
-  },
+  container: { alignItems: "center", height: "100%" },
+  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
+  buttonText: { color: "white", fontSize: 16 },
+  toggleText: { color: "#007BFF", marginTop: 10 },
+  errorText: { color: "red", fontSize: 12, alignSelf: "flex-start" },
+  inputFocused: { borderColor: "#007BFF", borderWidth: 2 },
   heading: {
     fontSize: 22,
     fontWeight: "bold",
@@ -241,11 +238,6 @@ const styles = StyleSheet.create({
     elevation: 5,
     alignItems: "center",
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
   label: {
     alignSelf: "flex-start",
     fontSize: 14,
@@ -258,10 +250,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 5,
     backgroundColor: "white",
-  },
-  inputFocused: {
-    borderColor: "#007BFF", // Blue border on focus
-    borderWidth: 2,
+    borderWidth: 1,
+    borderColor: "#ccc",
   },
   button: {
     backgroundColor: "#007BFF",
@@ -270,18 +260,5 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     marginVertical: 10,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-  },
-  toggleText: {
-    color: "#007BFF",
-    marginTop: 10,
-  },
-  errorText: {
-    color: "red",
-    fontSize: 12,
-    alignSelf: "flex-start",
   },
 });

@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { ActivityIndicator, Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
+import { updateTaskUrl } from "@/constants/api";
 
 const UpdateTask = ({}) => {
   const route = useRoute();
@@ -53,7 +54,7 @@ const UpdateTask = ({}) => {
     setUpdateTaskLoading(true);
     try {
       const response = await fetch(
-        `http://192.168.29.115:3000/api/task/updateTask/${item._id}`, // Updated API endpoint
+        `${updateTaskUrl}/${item._id}`, // Updated API endpoint
         {
           method: "PUT",
           headers: {

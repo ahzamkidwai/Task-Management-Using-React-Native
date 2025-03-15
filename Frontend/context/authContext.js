@@ -8,10 +8,10 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [authData, setAuthData] = useState({
     token: null,
-    user: null, // Store user data here
+    user: null,
   });
   const [token, setToken] = useState(null);
-  const [tasks, setTasks] = useState([]); // State to store tasks
+  const [tasks, setTasks] = useState([]);
   const navigation = useNavigation();
   const [reloadTask, setReloadTask] = useState(false);
 
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
       const storedToken = await AsyncStorage.getItem("token");
       const storedUser = await AsyncStorage.getItem("user");
       if (!storedToken) {
-        navigation.navigate("(tabs)"); // Redirect to login if no token
+        navigation.navigate("(tabs)");
       }
       setToken(storedToken);
       setAuthData({
@@ -48,8 +48,7 @@ export const AuthProvider = ({ children }) => {
 
         const responseData = await response.json();
         if (responseData.tasks) {
-          setTasks(responseData.tasks); // Store tasks in state
-          // console.log("ALL TASKS : ", tasks);
+          setTasks(responseData.tasks);
         }
       } catch (error) {
         console.error("Error fetching tasks:", error);
@@ -71,6 +70,7 @@ export const AuthProvider = ({ children }) => {
     await AsyncStorage.removeItem("user");
 
     setAuthData({ token: null, user: null });
+    console.log("Logout Successfully");
     navigation.navigate("(tabs)");
   };
 

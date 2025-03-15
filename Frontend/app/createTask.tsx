@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { ActivityIndicator, Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
+import { createTaskUrl } from "@/constants/api";
 
 const CreateTask = () => {
   const [title, setTitle] = useState("");
@@ -43,17 +44,14 @@ const CreateTask = () => {
 
     setCreateTaskLoading(true);
     try {
-      const response = await fetch(
-        "http://192.168.29.115:3000/api/task/createTask",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ title, description }),
-        }
-      );
+      const response = await fetch(createTaskUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ title, description }),
+      });
 
       if (!response.ok) {
         alert("Failed to create task.");

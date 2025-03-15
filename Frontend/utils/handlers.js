@@ -1,3 +1,5 @@
+import { deleteTask } from "@/constants/api";
+
 export const deleteTaskHandler = async (
   itemID,
   setDeleteLoading,
@@ -6,16 +8,13 @@ export const deleteTaskHandler = async (
 ) => {
   try {
     setDeleteLoading(true);
-    const response = await fetch(
-      `http://192.168.29.115:3000/api/task/deleteTask/${itemID}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(`${deleteTask}/${itemID}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!response.ok) {
       throw new Error("Failed to delete task");
@@ -23,7 +22,6 @@ export const deleteTaskHandler = async (
 
     console.log(`Task ${itemID} deleted successfully!`);
 
-    // Optionally remove the deleted task from state
     setTasks((prevTasks) => prevTasks.filter((task) => task._id !== itemID));
     setDeleteLoading(false);
   } catch (error) {
