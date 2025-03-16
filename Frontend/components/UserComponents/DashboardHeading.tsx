@@ -44,14 +44,14 @@ const DashboardHeading = () => {
           <Text style={styles.title}>Dashboard</Text>
 
           <View style={{ flexDirection: "row", alignItems: "center", gap: 15 }}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.iconWrapper}
               onPress={() => {
                 navigation.navigate("userProfile");
               }}
             >
               <Image source={userIcon} style={styles.userIcon} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity onPress={handleLogOut}>
               <Entypo name="log-out" size={36} color="white" />
             </TouchableOpacity>
