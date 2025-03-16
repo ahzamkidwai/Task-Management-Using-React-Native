@@ -93,15 +93,17 @@ const HomeScreenForm = () => {
           await AsyncStorage.setItem("token", responseData.token);
           await AsyncStorage.setItem("user", JSON.stringify(responseData.user));
         }
-        alert(
-          state.isRegister
-            ? "Registered Successfully!"
-            : "Logged in Successfully!"
-        );
+        // alert(
+        //   state.isRegister
+        //     ? "Registered Successfully!"
+        //     : "Logged in Successfully!"
+        // );
         if (!state.isRegister) {
           setToken(responseData.token);
           setAuth(responseData.token, responseData.user);
           navigation.navigate("dashboard");
+        } else {
+          dispatch({ type: "TOGGLE_AUTH" });
         }
       } else {
         alert(responseData.message || "Something went wrong");

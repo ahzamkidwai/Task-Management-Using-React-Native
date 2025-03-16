@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
       console.log("FetchAuthData is working");
       const storedToken = await AsyncStorage.getItem("token");
       const storedUser = await AsyncStorage.getItem("user");
+      console.log("Token inside fetchAuthData : ", storedToken);
       if (!storedToken) {
         navigation.navigate("home");
       }
@@ -35,7 +36,10 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchAllTasks = async () => {
-      if (!token) return;
+      if (!token) {
+        navigation.navigate("home");
+        return;
+      }
 
       try {
         const response = await fetch(getAllTasksUrl, {

@@ -4,11 +4,15 @@ import { ScrollView, View } from "react-native";
 import Dashboard from "./dashboard";
 import { PrimaryColors } from "../constants/colors";
 import { AuthContext } from "@/context/authContext";
+import { useNavigation } from "@react-navigation/native";
 
 const Home = () => {
   const { token } = useContext(AuthContext);
+  const naviagtion = useNavigation();
   useEffect(() => {
     console.log("Token inside useEffect : ", token);
+    if (token === undefined || token === null || !token)
+      naviagtion.navigate("home");
   }, [token]);
 
   return (
