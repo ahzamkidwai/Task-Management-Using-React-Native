@@ -10,7 +10,6 @@ const Home = () => {
   const { token } = useContext(AuthContext);
   const naviagtion = useNavigation();
   useEffect(() => {
-    console.log("Token inside useEffect : ", token);
     if (token === undefined || token === null || !token)
       naviagtion.navigate("home");
   }, [token]);

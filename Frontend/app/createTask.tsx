@@ -25,8 +25,7 @@ const CreateTask = () => {
 
   const handleSubmit = async () => {
     let isValid = true;
-    console.log("Token TOken Token : ", token);
-    // Title validation
+
     if (!title.trim()) {
       setTitleError("Title is required.");
       isValid = false;
@@ -34,22 +33,22 @@ const CreateTask = () => {
       setTitleError("");
     }
 
-    // Description validation
     if (!description.trim()) {
       setDescriptionError("Description is required.");
       isValid = false;
     } else {
       setDescriptionError("");
     }
+
     let newToken = await AsyncStorage.getItem("token");
 
     if (!newToken) {
       console.log("Token not found in AsyncStorage.");
       alert("Session expired. Please log in again.");
-      // navigation.navigate("LoginScreen"); // Redirect user to login
+      navigation.navigate("home");
       return;
     }
-    if (!isValid) return; // Stop if there are errors
+    if (!isValid) return;
     if (token === null) console.log("Nahi generate hua token");
 
     setCreateTaskLoading(true);
@@ -83,7 +82,6 @@ const CreateTask = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header with Back Button */}
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -94,7 +92,6 @@ const CreateTask = () => {
         <Text style={styles.heading}>Create Task</Text>
       </View>
 
-      {/* Title Input */}
       <TextInput
         style={[styles.input, titleError && styles.inputError]}
         placeholder="Enter Task Title"
@@ -107,7 +104,6 @@ const CreateTask = () => {
       />
       {titleError ? <Text style={styles.errorText}>{titleError}</Text> : null}
 
-      {/* Description Input */}
       <TextInput
         style={[
           styles.input,
@@ -127,7 +123,6 @@ const CreateTask = () => {
         <Text style={styles.errorText}>{descriptionError}</Text>
       ) : null}
 
-      {/* Submit Button */}
       <Button
         mode="contained"
         onPress={handleSubmit}
@@ -152,14 +147,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#2E2E2E",
     padding: 20,
   },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  backButton: {
-    padding: 10,
-  },
+  header: { flexDirection: "row", alignItems: "center", marginBottom: 20 },
+  inputError: { borderColor: "red" },
+  descriptionInput: { height: 120, textAlignVertical: "top" },
+  submitButton: { marginTop: 10, borderRadius: 8, elevation: 3 },
+  backButton: { padding: 10 },
   heading: {
     fontSize: 22,
     fontWeight: "bold",
@@ -177,22 +169,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#555",
   },
-  inputError: {
-    borderColor: "red",
-  },
-  descriptionInput: {
-    height: 120,
-    textAlignVertical: "top",
-  },
   errorText: {
     color: "red",
     fontSize: 14,
     marginBottom: 10,
     marginLeft: 5,
-  },
-  submitButton: {
-    marginTop: 10,
-    borderRadius: 8,
-    elevation: 3,
   },
 });

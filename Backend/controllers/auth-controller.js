@@ -51,7 +51,7 @@ const userLogginIn = async (req, res) => {
     const token = jwt.sign(
       { userId: user._id, email: user.email },
       process.env.JWT_SECRET, // Ensure you have JWT_SECRET in your environment variables
-      { expiresIn: "7d" } // Token expires in 12 hour
+      { expiresIn: "60d" } // Token expires in 12 hour
     );
 
     // Send response with token

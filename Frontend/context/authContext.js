@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
       });
 
       const responseData = await response.json();
-      console.log("Reloading responseData : ", responseData);
+
       if (responseData.tasks) {
         setTasks(responseData.tasks);
       }
