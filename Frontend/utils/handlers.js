@@ -8,13 +8,16 @@ export const deleteTaskHandler = async (
 ) => {
   try {
     setDeleteLoading(true);
-    const response = await fetch(`${deleteTask}/${itemID}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `https://task-management-using-react-native.vercel.app/api/task/deleteTask/${itemID}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Failed to delete task");

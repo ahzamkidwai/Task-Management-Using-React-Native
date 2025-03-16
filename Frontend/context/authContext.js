@@ -34,31 +34,38 @@ export const AuthProvider = ({ children }) => {
     fetchAuthData();
   }, []);
 
-  useEffect(() => {
-    const fetchAllTasks = async () => {
-      if (!token) {
-        navigation.navigate("home");
+  const fetchAllTasks = async () => {
+    console.log("Reloading");
+    if (!token) {
+      navigation.navigate("home");
+      return;
+    }
+
+    try {
+      const response = await fetch(getAllTasksUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 401) {
+        console.error("Token expired, logging out...");
+        logout();
         return;
       }
 
-      try {
-        const response = await fetch(getAllTasksUrl, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const responseData = await response.json();
-        if (responseData.tasks) {
-          setTasks(responseData.tasks);
-        }
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
+      const responseData = await response.json();
+      // console.log("Reloading responseData : ", responseData);
+      if (responseData.tasks) {
+        setTasks(responseData.tasks);
       }
-    };
-
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+  useEffect(() => {
     fetchAllTasks();
   }, [token, reloadTask]);
 
@@ -90,6 +97,8 @@ export const AuthProvider = ({ children }) => {
         setTasks,
         reloadTask,
         setReloadTask,
+        logout,
+        fetchAllTasks,
       }}
     >
       {children}

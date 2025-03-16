@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const DashboardHeading = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const { setToken, authData } = useContext(AuthContext);
+  const { setToken, authData, logout } = useContext(AuthContext);
   const navigation = useNavigation();
 
   const closeDropdown = () => {
@@ -26,9 +26,10 @@ const DashboardHeading = () => {
 
   const handleLogOut = async () => {
     try {
-      await AsyncStorage.removeItem("token"); // Remove token from AsyncStorage
-      setToken(null); // Clear token in AuthContext
-      navigation.navigate("home"); // Redirect to login screen
+      await AsyncStorage.removeItem("token");
+      setToken(null);
+      navigation.navigate("home");
+      logout();
     } catch (error) {
       console.error("Error during logout:", error);
     }
@@ -36,7 +37,7 @@ const DashboardHeading = () => {
 
   return (
     <TouchableWithoutFeedback onPress={closeDropdown}>
-      <View>
+      <View style={{ backgroundColor: PrimaryColors.backgroundColor }}>
         <View style={styles.container}>
           <Text style={styles.title}>Dashboard</Text>
 
@@ -86,7 +87,11 @@ const DashboardHeading = () => {
         </View>
         <View style={styles.welcomeContainer}>
           <Text style={styles.welcomeText}>
-            Welcome {authData?.user?.name || "User"},
+            Welcome{" "}
+            <Text style={styles.userText}>
+              {authData?.user?.name || "User"}
+              {", "}
+            </Text>
           </Text>
         </View>
       </View>
@@ -98,29 +103,24 @@ export default DashboardHeading;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: PrimaryColors.backgroundColor,
     padding: 10,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 20,
   },
   title: {
     fontSize: 32,
     fontWeight: "bold",
-    color: PrimaryColors.textColor,
+    color: PrimaryColors.textColor2,
   },
+  userText: { color: PrimaryColors.textColor2 },
   iconWrapper: {
     borderRadius: "50%",
     padding: 5,
     borderColor: PrimaryColors.primary,
     backgroundColor: "#fff",
   },
-  userIcon: {
-    width: 40,
-    height: 40,
-    resizeMode: "contain",
-  },
+  userIcon: { width: 40, height: 40, resizeMode: "contain" },
   dropdown: {
     position: "absolute",
     top: 50,
@@ -142,14 +142,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
   },
-  dropdownItemPressed: {
-    backgroundColor: "#f0f0f0", // Light gray background when pressed
-  },
-  dropdownText: {
-    fontSize: 16,
-    color: "#333",
-  },
-  welcomeContainer: { backgroundColor: "yellow" },
+  dropdownItemPressed: { backgroundColor: "#f0f0f0" },
+  dropdownText: { fontSize: 16, color: "#333" },
+  welcomeContainer: { paddingTop: "5%" },
   welcomeText: {
     fontSize: 20,
     fontWeight: "bold",
