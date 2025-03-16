@@ -11,6 +11,10 @@ import {
   StyleSheet,
 } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
+import { Dimensions } from "react-native";
+import { PrimaryColors } from "../constants/colors";
+import { Eye, EyeOff } from "lucide-react";
+const { height } = Dimensions.get("window");
 
 const initialState = {
   name: "",
@@ -55,59 +59,10 @@ const HomeScreenForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // const handleSubmit = async () => {
-  //   if (!validate()) return;
-  //   setLoading(true);
-  //   const url = state.isRegister ? registerUserUrl : loginUserUrl;
-
-  //   const formData = {
-  //     name: state.isRegister ? state.name : undefined,
-  //     email: state.email,
-  //     password: state.password,
-  //     confirmPassword: state.confirmPassword,
-  //   };
-
-  //   try {
-  //     const response = await fetch(url, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-
-  //     const responseData = await response.json();
-  //     console.log("Response Data is : ", responseData);
-
-  //     if (response.ok) {
-  //       await AsyncStorage.setItem("token", responseData.token);
-  //       await AsyncStorage.setItem("user", JSON.stringify(responseData.user));
-  //       alert(
-  //         state.isRegister
-  //           ? "Registered Successfully!"
-  //           : "Logged in Successfully!"
-  //       );
-
-  //       console.log("Response Data Is : ", responseData);
-  //       navigation.navigate("dashboard");
-  //       setToken(responseData.token);
-  //       setAuth(responseData.token, responseData.user);
-  //     } else {
-  //       alert(responseData.message || "Something went wrong");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error occurred while loggin in : ", error.message);
-  //     alert("Network error! Please try again.");
-  //   }
-  // };
-
   const handleSubmit = async () => {
     if (!validate()) return;
-
-    setLoading(true); // Start loading
-
+    setLoading(true);
     const url = state.isRegister ? registerUserUrl : loginUserUrl;
-
     let formData = {};
     if (state.isRegister) {
       formData = {
@@ -177,6 +132,7 @@ const HomeScreenForm = () => {
                 focusedField === "name" && styles.inputFocused,
               ]}
               placeholder="Enter your name"
+              placeholderTextColor="white"
               value={state.name}
               onChangeText={(text) =>
                 dispatch({ type: "SET_FIELD", field: "name", value: text })
@@ -197,6 +153,7 @@ const HomeScreenForm = () => {
             focusedField === "email" && styles.inputFocused,
           ]}
           placeholder="Enter your email"
+          placeholderTextColor="white"
           keyboardType="email-address"
           value={state.email}
           onChangeText={(text) =>
@@ -216,6 +173,7 @@ const HomeScreenForm = () => {
             focusedField === "password" && styles.inputFocused,
           ]}
           placeholder="Enter your password"
+          placeholderTextColor="white"
           secureTextEntry
           value={state.password}
           onChangeText={(text) =>
@@ -238,6 +196,7 @@ const HomeScreenForm = () => {
               ]}
               placeholder="Re-enter your password"
               secureTextEntry
+              placeholderTextColor="white"
               value={state.confirmPassword}
               onChangeText={(text) =>
                 dispatch({
@@ -263,7 +222,10 @@ const HomeScreenForm = () => {
           disabled={loading}
         >
           {loading ? (
-            <ActivityIndicator size="small" color="white" />
+            <ActivityIndicator
+              size="small"
+              color={PrimaryColors.backgroundScreenColor}
+            />
           ) : (
             <Text style={styles.buttonText}>
               {state.isRegister ? "Register" : "Login"}
@@ -273,9 +235,21 @@ const HomeScreenForm = () => {
 
         <TouchableOpacity onPress={() => dispatch({ type: "TOGGLE_AUTH" })}>
           <Text style={styles.toggleText}>
-            {state.isRegister
-              ? "Already have an account? Login"
-              : "Don't have an account? Register"}
+            {state.isRegister ? (
+              <>
+                Already have an account?{" "}
+                <Text style={{ color: PrimaryColors.backgroundColor1 }}>
+                  Login
+                </Text>
+              </>
+            ) : (
+              <>
+                Don't have an account?{" "}
+                <Text style={{ color: PrimaryColors.backgroundColor1 }}>
+                  Register
+                </Text>
+              </>
+            )}
           </Text>
         </TouchableOpacity>
       </View>
@@ -286,43 +260,59 @@ const HomeScreenForm = () => {
 export default HomeScreenForm;
 
 const styles = StyleSheet.create({
-  container: { alignItems: "center", height: "100%" },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
-  buttonText: { color: "white", fontSize: 16 },
-  toggleText: { color: "#007BFF", marginTop: 10 },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    height: height - 40,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: PrimaryColors.backgroundColor1,
+  },
+  buttonText: { color: PrimaryColors.backgroundScreenColor, fontSize: 16 },
+  toggleText: { color: "white", marginTop: 10 },
   errorText: { color: "red", fontSize: 12, alignSelf: "flex-start" },
-  inputFocused: { borderColor: "#007BFF", borderWidth: 2 },
+  inputFocused: { borderColor: PrimaryColors.backgroundColor1, borderWidth: 2 },
   heading: {
     fontSize: 22,
     fontWeight: "bold",
     marginBottom: 20,
+    color: PrimaryColors.backgroundColor1,
   },
   formContainer: {
     width: "90%",
     maxWidth: 400,
     padding: 20,
-    backgroundColor: "white",
+    backgroundColor: PrimaryColors.backgroundScreenColor,
     borderRadius: 10,
     elevation: 5,
     alignItems: "center",
+    borderWidth: 1.5,
+    borderColor: PrimaryColors.backgroundColor1,
   },
   label: {
     alignSelf: "flex-start",
     fontSize: 14,
-    fontWeight: "bold",
+    fontWeight: "400",
     marginTop: 10,
+    marginBottom: 5,
+    color: PrimaryColors.textColor2,
   },
   input: {
     width: "100%",
     padding: 10,
     borderRadius: 5,
     marginBottom: 5,
-    backgroundColor: "white",
+    backgroundColor: PrimaryColors.inputPlaceholderColor,
     borderWidth: 1,
     borderColor: "#ccc",
+    color: "white",
   },
   button: {
-    backgroundColor: "#007BFF",
+    backgroundColor: PrimaryColors.backgroundColor1,
     padding: 12,
     borderRadius: 5,
     width: "100%",

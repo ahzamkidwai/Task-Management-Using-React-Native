@@ -44,3 +44,13 @@ export const darkColors = [
   { background: "#8B008B", text: "#FFCCFF" }, // Deep Pink Magenta
   { background: "#C71585", text: "#FFEBF5" }, // Ruby Rose
 ];
+
+export const PrimaryColors = {
+  backgroundScreenColor: "#1E1E1E",
+  textColor: "white",
+  textColor2: "#FED36A",
+  backgroundColor: "black",
+  backgroundColor1: "#FED36A",
+  backgroundColor2: "pink",
+  inputPlaceholderColor: "#455A64",
+};

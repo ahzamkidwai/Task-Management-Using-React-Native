@@ -7,7 +7,7 @@ import {
   View,
   TouchableWithoutFeedback,
 } from "react-native";
-import { PrimaryColors } from "../../styles/primary";
+import { PrimaryColors } from "../../constants/colors";
 import userIcon from "../../assets/images/user-icon.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "@/context/authContext";

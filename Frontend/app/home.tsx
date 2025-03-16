@@ -2,7 +2,7 @@ import HomeScreenForm from "@/components/HomeScreenForm";
 import { useContext, useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import Dashboard from "./dashboard";
-import { PrimaryColors } from "@/styles/primary";
+import { PrimaryColors } from "../constants/colors";
 import { AuthContext } from "@/context/authContext";
 
 const Home = () => {
@@ -12,10 +12,8 @@ const Home = () => {
   }, [token]);
 
   return (
-    <ScrollView
-      style={{ flex: 1, backgroundColor: PrimaryColors.backgroundScreenColor }}
-    >
-      <View style={{}}>{token ? <Dashboard /> : <HomeScreenForm />}</View>
+    <ScrollView style={{ backgroundColor: PrimaryColors.backgroundColor }}>
+      <View>{token ? <Dashboard /> : <HomeScreenForm />}</View>
     </ScrollView>
   );
 };
