@@ -21,10 +21,10 @@ export const AuthProvider = ({ children }) => {
       const storedToken = await AsyncStorage.getItem("token");
       const storedUser = await AsyncStorage.getItem("user");
       console.log("Token inside fetchAuthData : ", storedToken);
+      setToken(storedToken);
       if (!storedToken) {
         navigation.navigate("home");
       }
-      setToken(storedToken);
       setAuthData({
         token: storedToken,
         user: storedUser ? JSON.parse(storedUser) : null,
@@ -50,14 +50,8 @@ export const AuthProvider = ({ children }) => {
         },
       });
 
-      // if (response.status === 401) {
-      //   console.log("Token expired, logging out...");
-      //   logout();
-      //   return;
-      // }
-
       const responseData = await response.json();
-      // console.log("Reloading responseData : ", responseData);
+      console.log("Reloading responseData : ", responseData);
       if (responseData.tasks) {
         setTasks(responseData.tasks);
       }

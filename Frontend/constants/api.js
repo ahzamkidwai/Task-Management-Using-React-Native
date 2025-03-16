@@ -7,3 +7,4 @@ export const domain = "https://task-management-using-react-native.vercel.app";
 export const registerUserUrl = `${domain}/api/auth/register`;
 export const loginUserUrl = `${domain}/api/auth/signin`;
 export const updateTaskUrl = `${domain}/api/task/updateTask`;
+export const createTaskUrl = `${domain}/api/task/createTask`;

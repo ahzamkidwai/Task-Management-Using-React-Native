@@ -19,13 +19,13 @@ const CreateTask = () => {
   const [description, setDescription] = useState("");
   const [titleError, setTitleError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
-  const { token } = useContext(AuthContext);
+  const { token, fetchAllTasks } = useContext(AuthContext);
   const [createTaskLoading, setCreateTaskLoading] = useState(false);
   const navigation = useNavigation();
 
   const handleSubmit = async () => {
     let isValid = true;
-
+    console.log("Token TOken Token : ", token);
     // Title validation
     if (!title.trim()) {
       setTitleError("Title is required.");
@@ -42,15 +42,23 @@ const CreateTask = () => {
       setDescriptionError("");
     }
     let newToken = await AsyncStorage.getItem("token");
+
+    if (!newToken) {
+      console.log("Token not found in AsyncStorage.");
+      alert("Session expired. Please log in again.");
+      // navigation.navigate("LoginScreen"); // Redirect user to login
+      return;
+    }
     if (!isValid) return; // Stop if there are errors
-    console.log("Token in ceate task : ", newToken);
+    if (token === null) console.log("Nahi generate hua token");
+
     setCreateTaskLoading(true);
     try {
       const response = await fetch(createTaskUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${newToken}`,
         },
         body: JSON.stringify({ title, description }),
       });
@@ -65,6 +73,7 @@ const CreateTask = () => {
       setTitle("");
       setDescription("");
       setCreateTaskLoading(false);
+      fetchAllTasks();
       navigation.goBack();
     } catch (error) {
       console.error("Error occurred while creating Task:", error);

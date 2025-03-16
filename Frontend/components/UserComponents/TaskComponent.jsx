@@ -25,6 +25,14 @@ const TaskComponent = ({ tasks }) => {
         onPress={() => {
           navigation.navigate("createTask");
         }}
+        style={{
+          borderWidth: 1,
+          borderColor: "white",
+          borderRadius: 30,
+          marginHorizontal: 70,
+          marginTop: 30,
+          marginBottom: 10,
+        }}
       >
         <Button
           mode="contained"
@@ -83,10 +91,11 @@ const styles = StyleSheet.create({
     borderColor: PrimaryColors.textColor,
   },
   heading: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
-    color: PrimaryColors.textColor,
-    marginHorizontal: 12,
+    color: PrimaryColors.textColor2,
+    marginHorizontal: 10,
+    marginTop: 10,
   },
   addTaskButton: {
     marginHorizontal: 15,

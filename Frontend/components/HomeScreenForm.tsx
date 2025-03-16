@@ -93,11 +93,7 @@ const HomeScreenForm = () => {
           await AsyncStorage.setItem("token", responseData.token);
           await AsyncStorage.setItem("user", JSON.stringify(responseData.user));
         }
-        // alert(
-        //   state.isRegister
-        //     ? "Registered Successfully!"
-        //     : "Logged in Successfully!"
-        // );
+        if (state.isRegister) alert("Registered Successfully!");
         if (!state.isRegister) {
           setToken(responseData.token);
           setAuth(responseData.token, responseData.user);
