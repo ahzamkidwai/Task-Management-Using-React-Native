@@ -11,6 +11,8 @@ import {
 import { ActivityIndicator, Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { createTaskUrl } from "@/constants/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { PrimaryColors } from "../constants/colors";
 
 const CreateTask = () => {
   const [title, setTitle] = useState("");
@@ -39,9 +41,9 @@ const CreateTask = () => {
     } else {
       setDescriptionError("");
     }
-
+    let newToken = await AsyncStorage.getItem("token");
     if (!isValid) return; // Stop if there are errors
-
+    console.log("Token in ceate task : ", newToken);
     setCreateTaskLoading(true);
     try {
       const response = await fetch(createTaskUrl, {
@@ -120,9 +122,9 @@ const CreateTask = () => {
       <Button
         mode="contained"
         onPress={handleSubmit}
-        buttonColor="#007AFF"
-        textColor="#fff"
-        labelStyle={{ fontSize: 16, fontWeight: "bold" }}
+        buttonColor={PrimaryColors.textColor2}
+        textColor={PrimaryColors.backgroundScreenColor}
+        labelStyle={{ fontSize: 16 }}
         style={styles.submitButton}
         disabled={createTaskLoading}
       >

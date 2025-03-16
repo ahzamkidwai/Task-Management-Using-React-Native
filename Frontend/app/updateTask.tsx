@@ -11,6 +11,7 @@ import {
 import { ActivityIndicator, Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { updateTaskUrl } from "@/constants/api";
+import { PrimaryColors } from "../constants/colors";
 
 const UpdateTask = ({}) => {
   const route = useRoute();
@@ -130,9 +131,9 @@ const UpdateTask = ({}) => {
       <Button
         mode="contained"
         onPress={handleSubmit}
-        buttonColor="#007AFF"
-        textColor="#fff"
-        labelStyle={{ fontSize: 16, fontWeight: "bold" }}
+        buttonColor={PrimaryColors.textColor2}
+        textColor={PrimaryColors.backgroundScreenColor}
+        labelStyle={{ fontSize: 16 }}
         style={styles.submitButton}
         disabled={updateTaskLoading}
       >

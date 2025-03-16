@@ -40,6 +40,7 @@ export default function RootLayout() {
           <Stack.Screen name="singleTask" options={{ headerShown: false }} />
           <Stack.Screen name="createTask" options={{ headerShown: false }} />
           <Stack.Screen name="updateTask" options={{ headerShown: false }} />
+          <Stack.Screen name="userProfile" options={{ headerShown: false }} />
         </Stack>
       </AuthProvider>
     </ThemeProvider>

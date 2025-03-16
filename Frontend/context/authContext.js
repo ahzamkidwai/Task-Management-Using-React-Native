@@ -50,11 +50,11 @@ export const AuthProvider = ({ children }) => {
         },
       });
 
-      if (response.status === 401) {
-        console.error("Token expired, logging out...");
-        logout();
-        return;
-      }
+      // if (response.status === 401) {
+      //   console.log("Token expired, logging out...");
+      //   logout();
+      //   return;
+      // }
 
       const responseData = await response.json();
       // console.log("Reloading responseData : ", responseData);
@@ -81,8 +81,8 @@ export const AuthProvider = ({ children }) => {
     await AsyncStorage.removeItem("user");
 
     setAuthData({ token: null, user: null });
-    console.log("Logout Successfully");
     navigation.navigate("home");
+    console.log("Logout Successfully");
   };
 
   return (

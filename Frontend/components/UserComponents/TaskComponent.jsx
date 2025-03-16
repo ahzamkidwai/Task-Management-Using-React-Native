@@ -3,6 +3,7 @@ import SingleTaskComponent from "./SingleTaskComponent";
 import { darkColors } from "../../constants/colors";
 import { useNavigation } from "@react-navigation/native";
 import { Button } from "react-native-paper";
+import { PrimaryColors } from "../../constants/colors";
 
 const TaskComponent = ({ tasks }) => {
   const navigation = useNavigation();
@@ -60,7 +61,10 @@ const TaskComponent = ({ tasks }) => {
 export default TaskComponent;
 
 const styles = StyleSheet.create({
-  container: { marginVertical: "8%", borderWidth: 2, borderColor: "#ddd" },
+  container: {
+    marginVertical: "8%",
+    borderWidth: 1,
+  },
   taskContainer: {
     marginHorizontal: 15,
     marginVertical: 10,
@@ -75,13 +79,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start",
     elevation: 3,
+    borderWidth: 0.5,
+    borderColor: PrimaryColors.textColor,
   },
   heading: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#333",
-    marginTop: 20,
-    paddingVertical: 5,
+    color: PrimaryColors.textColor,
     marginHorizontal: 12,
   },
   addTaskButton: {
@@ -89,6 +93,5 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 8,
     elevation: 3,
-    width: "50%",
   },
 });

@@ -18,7 +18,7 @@ export const deleteTaskHandler = async (
         },
       }
     );
-
+    console.log("Response in deleting : ", response);
     if (!response.ok) {
       throw new Error("Failed to delete task");
     }

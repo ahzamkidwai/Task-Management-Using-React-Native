@@ -38,9 +38,9 @@ const SingleTaskComponent = ({ item, textColor }) => {
           {truncatedDescription}
         </Text>
 
-        <Text style={[styles.status, { color: textColor }]}>
+        {/* <Text style={[styles.status, { color: textColor }]}>
           Status: {item.completed ? "Completed" : "Pending"}
-        </Text>
+        </Text> */}
       </View>
       <View style={styles.iconsContainer}>
         <AntDesign name="arrowright" size={24} color={textColor} />

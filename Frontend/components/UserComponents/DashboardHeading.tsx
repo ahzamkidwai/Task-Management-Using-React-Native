@@ -6,12 +6,14 @@ import {
   Text,
   View,
   TouchableWithoutFeedback,
+  TouchableOpacity,
 } from "react-native";
 import { PrimaryColors } from "../../constants/colors";
 import userIcon from "../../assets/images/user-icon.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "@/context/authContext";
 import { useNavigation } from "@react-navigation/native";
+import Entypo from "@expo/vector-icons/Entypo";
 
 const DashboardHeading = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -41,48 +43,18 @@ const DashboardHeading = () => {
         <View style={styles.container}>
           <Text style={styles.title}>Dashboard</Text>
 
-          <View>
-            <Pressable onPress={() => setDropdownVisible(!isDropdownVisible)}>
-              <View style={styles.iconWrapper}>
-                <Image source={userIcon} style={styles.userIcon} />
-              </View>
-            </Pressable>
-
-            {/* Dropdown Menu */}
-            {isDropdownVisible && (
-              <View style={styles.dropdown}>
-                <Pressable
-                  onPress={() => alert("Profile Clicked")}
-                  style={({ pressed }) => [
-                    styles.dropdownItem,
-                    pressed && styles.dropdownItemPressed,
-                  ]}
-                >
-                  <Text style={styles.dropdownText}>Profile</Text>
-                </Pressable>
-                <Pressable
-                  onPress={() => alert("Settings Clicked")}
-                  style={({ pressed }) => [
-                    styles.dropdownItem,
-                    pressed && styles.dropdownItemPressed,
-                  ]}
-                >
-                  <Text style={styles.dropdownText}>Settings</Text>
-                </Pressable>
-                <Pressable
-                  onPress={() => {
-                    alert("Logout Clicked");
-                    handleLogOut();
-                  }}
-                  style={({ pressed }) => [
-                    styles.dropdownItem,
-                    pressed && styles.dropdownItemPressed,
-                  ]}
-                >
-                  <Text style={styles.dropdownText}>Logout</Text>
-                </Pressable>
-              </View>
-            )}
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 15 }}>
+            <TouchableOpacity
+              style={styles.iconWrapper}
+              onPress={() => {
+                navigation.navigate("userProfile");
+              }}
+            >
+              <Image source={userIcon} style={styles.userIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleLogOut}>
+              <Entypo name="log-out" size={36} color="white" />
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.welcomeContainer}>
@@ -120,7 +92,7 @@ const styles = StyleSheet.create({
     borderColor: PrimaryColors.primary,
     backgroundColor: "#fff",
   },
-  userIcon: { width: 40, height: 40, resizeMode: "contain" },
+  userIcon: { width: 32, height: 32, resizeMode: "contain" },
   dropdown: {
     position: "absolute",
     top: 50,
